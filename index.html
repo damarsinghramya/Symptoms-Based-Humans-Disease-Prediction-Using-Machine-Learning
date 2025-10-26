@@ -1,0 +1,228 @@
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Disease Prediction System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f9fc;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .search-bar {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        .symptom-list {
+            max-height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .symptom-list label {
+            display: block;
+            margin: 2px 0;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 30px;
+            background: #e9f7ef;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .result h2 {
+            color: #c0392b;
+        }
+    </style>
+    <script>
+        function filterSymptoms() {
+            var input, filter, div, labels, i, txtValue;
+            input = document.getElementById("symptomSearch");
+            filter = input.value.toLowerCase();
+            div = document.getElementById("symptomContainer");
+            labels = div.getElementsByTagName("label");
+            for (i = 0; i < labels.length; i++) {
+                txtValue = labels[i].textContent || labels[i].innerText;
+                labels[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Disease Prediction System</h1>
+        <form method="POST" action="/predict">
+            <h3>Select Symptoms:</h3>
+            <input type="text" id="symptomSearch" onkeyup="filterSymptoms()" placeholder="Search symptoms..." class="search-bar">
+            <div class="symptom-list" id="symptomContainer">
+                {% for symptom in symptoms %}
+                    <label><input type="checkbox" name="symptoms" value="{{ symptom }}"> {{ symptom.replace('_', ' ') }}</label>
+                {% endfor %}
+            </div>
+            <button type="submit">Predict Disease</button>
+        </form>
+
+        {% if predicted_disease %}
+        <div class="result">
+            <h2>Predicted Disease: {{ predicted_disease }}</h2>
+            <h3>Precautions:</h3>
+            <ul>
+                {% for precaution in precautions %}
+                    <li>{{ precaution }}</li>
+                {% endfor %}
+            </ul>
+            <h3>Recommended Doctor:</h3>
+            <p>{{ doctor }}</p>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="result" style="background: #f8d7da;">
+            <p>{{ error }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Disease Prediction System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://static.vecteezy.com/system/resources/thumbnails/004/449/845/small_2x/abstract-geometric-medical-cross-shape-medicine-and-science-concept-background-medicine-medical-health-cross-healthcare-decoration-for-flyers-poster-web-banner-and-card-illustration-vector.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: black;
+        }
+        .container {
+            max-width: 1500px;
+            max-height: 1200px;
+            margin: auto;
+            background: rgb(135, 230, 235); /* semi-transparent white for readability */
+            background-image: url('https://static.vecteezy.com/system/resources/thumbnails/004/449/845/small_2x/abstract-geometric-medical-cross-shape-medicine-and-science-concept-background-medicine-medical-health-cross-healthcare-decoration-for-flyers-poster-web-banner-and-card-illustration-vector.jpg');
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        .search-bar {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        .symptom-list {
+            max-height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .symptom-list label {
+            display: block;
+            margin: 2px 0;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 30px;
+            background: #e9f7ef;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .result h2 {
+            color: #c0392b;
+        }
+    </style>
+    <script>
+        function filterSymptoms() {
+            var input, filter, div, labels, i, txtValue;
+            input = document.getElementById("symptomSearch");
+            filter = input.value.toLowerCase();
+            div = document.getElementById("symptomContainer");
+            labels = div.getElementsByTagName("label");
+            for (i = 0; i < labels.length; i++) {
+                txtValue = labels[i].textContent || labels[i].innerText;
+                labels[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Disease Prediction System</h1>
+        <form method="POST" action="/predict">
+            <h3>Select Symptoms:</h3>
+            <input type="text" id="symptomSearch" onkeyup="filterSymptoms()" placeholder="Search symptoms..." class="search-bar">
+            <div class="symptom-list" id="symptomContainer">
+                {% for symptom in symptoms %}
+                    <label><input type="checkbox" name="symptoms" value="{{ symptom }}"> {{ symptom.replace('_', ' ') }}</label>
+                {% endfor %}
+            </div>
+            <button type="submit">Predict Disease</button>
+        </form>
+
+        {% if predicted_disease %}
+        <div class="result">
+            <h2>Predicted Disease: {{ predicted_disease }}</h2>
+            <h3>Precautions:</h3>
+            <ul>
+                {% for precaution in precautions %}
+                    <li>{{ precaution }}</li>
+                {% endfor %}
+            </ul>
+            <h3>Recommended Doctor:</h3>
+            <p>{{ doctor }}</p>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="result" style="background: #f8d7da;">
+            <p>{{ error }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+
